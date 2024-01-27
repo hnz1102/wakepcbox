@@ -1,0 +1,12 @@
+[wakepcbox]
+wifi_ssid = "<SSID>"
+wifi_psk = "<Password>"
+target_mac_address1 = "00:00:00:00:00:00"
+target_mac_address2 = "00:00:00:00:00:00"
+target_mac_address3 = "00:00:00:00:00:00"
+target_mac_address4 = "00:00:00:00:00:00"
+timezone_offset = "0"
+idle_in_sleep_time = "30"
+sleep_mode = "light"
+display_off_time = "30"
+wakeup_interval = "10"
