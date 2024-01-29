@@ -1,0 +1,28 @@
+Reference,Value,Footprint,Datasheet,digikey,distributor,Qty
+"C102, C103",16pF,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~,,,2
+"C104, C111",0.1uF,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/CC0603ZRY5V9BB104/2103081,2
+C108,4.7uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/CC0805ZRY5V6BB475/2103109,1
+"C109, C113",1uF,Capacitor_SMD:C_0805_2012Metric,~,,https://www.digikey.com/en/products/detail/yageo/CC0805ZRY5V7BB105/2833622,2
+"C110, C112",10uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~,,https://www.digikey.com/en/products/detail/murata-electronics/GRM21BR61C106KE15K/2546903,2
+D102,LED RED,LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder,~,,https://www.digikey.com/en/products/detail/harvatek-corporation/B1931URO-20D000114U1930/15910603,1
+D103,LED GREEN,LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder,~,,https://www.digikey.com/en/products/detail/harvatek-corporation/B1931NG-20D001114U1930/15861262,1
+D104,NSR0340HT1G,Diode_SMD:D_SOD-323_HandSoldering,https://www.onsemi.com/pub/Collateral/NSR0340H-D.PDF,,https://www.digikey.com/en/products/detail/onsemi/NSR0340HT1G/1981491,1
+FB101,MH2029-601Y,Inductor_SMD:L_0805_2012Metric,~,,https://www.digikey.com/en/products/detail/bourns-inc/MH2029-601Y/3741762,1
+J101,USB4105-GF-A,Library:USB_C_5077CR-16-SMC2-BK-TR,https://www.usb.org/sites/default/files/documents/usb_type-c.zip,,https://www.digikey.com/en/products/detail/gct/USB4105-GF-A/11198441,1
+J103,LiPo BATTERY,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,~,,https://www.digikey.com/en/products/detail/jst-sales-america-inc/B2B-PH-K-S/926611,1
+Q101,IRF7606TRPBF,Package_SO:MSOP-8_3x3mm_P0.65mm,http://www.irf.com/product-info/datasheets/data/irf7606pbf.pdf,,https://www.digikey.com/en/products/detail/infineon-technologies/IRF7606TRPBF/856652,1
+"R102, R109, R110, R112, R114, R117",10K,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.jp/en/products/detail/yageo/RC0603JR-1010KL/13694233,6
+"R103, R104",5.1K,Resistor_SMD:R_0603_1608Metric,~,,https://www.digikey.com/en/products/detail/yageo/RC0603JR-075K1L/726796,2
+"R105, R108",10K,Resistor_SMD:R_0603_1608Metric,~,,https://www.digikey.jp/en/products/detail/yageo/RC0603JR-1010KL/13694233,2
+"R106, R120, R121",20K 1%,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.jp/en/products/detail/yageo/RC0603FR-0720KL/727040,3
+R107,12K 1%,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/RC0603FR-0712KL/726913,1
+R115,2K,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/RC0603JR-072KL/726726,1
+"R118, R119",330,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/RC0603JR-13330RL/14286483,2
+R122,100K,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/RC0603JR-07100KL/726698,1
+"SW101, SW103-SW106",TS-06104,Library:TS-06104,,,https://akizukidenshi.com/catalog/g/g115969/,5
+SW102,3.5x2.6 Tact SW,Library:WS-TASV SMT Tact Switch,,,https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/435151014824/11627325,1
+U101,ESP32-C3-WROOM-02-N4,Library:IC18_ESP32-C3-WROOM-02-N4_EXP,ESP32-C3-WROOM-02-N4,,https://www.digikey.com/en/products/detail/espressif-systems/ESP32-C3-WROOM-02-N4/14553031,1
+U102,SPX3819M5-L,Package_TO_SOT_SMD:SOT-23-5,https://www.exar.com/content/document.ashx?id=22106&languageid=1033&type=Datasheet&partnumber=SPX3819&filename=SPX3819.pdf&part=SPX3819,,https://www.digikey.com/en/products/detail/maxlinear-inc/SPX3819M5-L-TR/2472388,1
+U103,SSD1306_DISPLAY,Library:OLED I2C DISPLAY,,,https://akizukidenshi.com/catalog/g/g112031/,1
+U104,MCP73831-2-OT,Package_TO_SOT_SMD:SOT-23-5,http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf,,https://www.digikey.com/en/products/detail/microchip-technology/MCP73831T-2ACI-OT/964301,1
+Y101,32.7680KHz,Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm,~,2151-RT3215-32.768-12.5-TRCT-ND,https://www.digikey.com/en/products/detail/raltron-electronics/RT3215-32-768-12-5-TR/10273025,1
