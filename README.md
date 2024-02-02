@@ -7,6 +7,7 @@
 
 # Wake PC Box - Wake On LAN Packet Transmitting Box
 
+Video
 [![demo video](doc/videosum.png)](https://www.youtube.com/watch?v=YX_4e1eiLbk)
 
 This is the small control box that can wake up the PC using Wake On LAN. You can just push a button, PCs will wake up from the power off status.
@@ -124,6 +125,8 @@ Crystal frequency: 40MHz
 Flash size:        4MB
 Features:          WiFi, BLE
 MAC address:       xx:xx:xx:xx:xx:xx
+
+If the board is not recognized from PC, press Reset SW and Center button.
 
 $ rustup component add rust-src --toolchain nightly-2023-12-28-x86_64-unknown-linux-gnu 
 ```
