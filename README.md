@@ -9,13 +9,13 @@
 
 [![demo video](doc/videosum.png)](https://www.youtube.com/watch?v=YX_4e1eiLbk)
 
-This is small control box that it can wake up the PC using Wake On LAN. You can just push a button, PCs will wake up from the power off status.
-There is no need to start up another PC in order to start up a PC with Wake On Lan. Wake on LAN packet are sent via WiFi LAN.
-The Box has a battery, you can charge from USB Type-C port. Once charging full, you can use it for a month. If any buttons are not pressed for the specified time (default 30 seconds), the box will sleep automatically and conserve battery power. Up to four PCs can be registered.
+This is the small control box that can wake up the PC using Wake On LAN. You can just push a button, PCs will wake up from the power off status.
+There is no need to start up another PC in order to start up a PC with Wake On Lan. Wake on LAN packets are sent via WiFi LAN.
+The Box has a battery, and you can charge it from a USB Type-C port. Once charging full, you can use it for a month. If any buttons are not pressed for the specified time (default 30 seconds), the box will sleep automatically and conserve battery power. Up to four PCs can be registered.
 
 # How it works
 
-This box can send a Wake on LAN packet to the Wireless Access Point. To transfer the packet, Access Point need to be set `Bridge Mode`. If `Router Mode` is set, Access Point won't transfer to the wired LAN. 
+This box can send a Wake on LAN packet to the Wireless Access Point. To transfer the packet, the Access Point needs to be set to `Bridge Mode`. If `Router Mode` is set, the Access Point won't transfer to the wired LAN. 
 
 ![fig1](doc/fig1.png)
 
@@ -23,19 +23,19 @@ This box can send a Wake on LAN packet to the Wireless Access Point. To transfer
 
 **Quick Wake Up** -  Simply press one of the up, down, left, or right buttons to turn on the PC corresponding to that button. 4 PCs can be registered.
 
-**Microcontroller on board** - No need for a PC when you turn on an another PC. Directly send packets to the target PCs. 
+**Microcontroller on board** - No need for a PC when you turn on another PC. Directly send packets to the target PCs. 
 
-**Transmit a packet via WiFi** - Wake on LAN packets are transmitted via Wireless Network.
+**Transmit a packet via WiFi** - Wake-on LAN packets are transmitted via Wireless Network.
 
-**Battery Powered** - Using LiPo battery. It can run for a month (In the case, every day a few times used).
+**Battery Powered** - Using LiPo battery. It can run for a month (In this case, every day a few times used).
 
-**Small Handy Box** - This box is only 60mm(W) x 23mm(H) x 80mm(D) size. No need any cables, it works. 
+**Small Handy Box** - This box is only 60mm(W) x 23mm(H) x 80mm(D) size. No need for any cables, it works. 
 
-**Configurable** - Setting parameters are set from the display menu. SSID/Password/Target PC Hardware Address(4 PCs)/Time Zone/Sleep Time/Sleep Mode/Display Off Time/Reset Settings
+**Configurable** - Setting parameters are set from the display menu. SSID/Password/Target PC Hardware Address(4 PCs)/Time Zone/Sleep Time/Sleep Mode/Display Off Time/Reset Settings.
 
 # How to Use the Box
-At first, you can set the WiFi SSID and PSK-Password. To set them, push the Center Key, you can see the setting menu, then select the `WiFi` using UP or Down Key, and click the Center Key. Then, select `SSID` and enter your SSID of Wireless Access point using Up/Down/Left/Right key. After entering the SSID, push the center key, select `yes` using Right key, then, push Center key. Similarly, set the PSK-Password.
-Next, setting Hardware Address(Ethernet MAC Address) of PC which you want to wake up. Select `HW Address` and push Center Key, select from `PC1` to `PC4`, push Center key, then enter the your Hardware Address like `00:11:22:33:44:55`. 
+At first, you can set the WiFi SSID and PSK-Password. To set them, push the Center Key, you can see the setting menu, then select the `WiFi` using the UP or Down Key, and click the Center Key. Then, select `SSID` and enter your SSID of the Wireless Access point using the Up/Down/Left/Right key. After entering the SSID, push the center key, select `yes` using the Right key, then, push the Center key. Similarly, set the PSK-Password.
+Next, set the Hardware Address(Ethernet MAC Address) of the PC that you want to wake up. Select `HW Address` and push Center Key, select from `PC1` to `PC4`, push Center key, then enter your Hardware Address like `00:11:22:33:44:55`. 
 
 ![setting](doc/setting2.jpg)   ![setting](doc/macaddress2.jpg)
 
@@ -143,11 +143,11 @@ App/part. size:    1,624,544/3,145,728 bytes, 51.64%
 [00:00:00] [========================================]       1/1       0x8000                                                                                                                    
 [00:00:18] [========================================]     879/879     0x10000                                                                                                                   [2024-01-28T05:33:53Z INFO ] Flashing has completed!
 
-And automaticaly boot!
+And automatically boot!
 ```
 ## Schematic, PCB Gabar and Container 3D Data
 
-There is a Schematic data in hardware directory include 3D printing data. 
+There is a Schematic data in the hardware directory including 3D printing data. 
 
 ![Container](doc/box.png) ![PCB Layout](doc/pcblayout.png)
 

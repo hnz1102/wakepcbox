@@ -1,5 +1,5 @@
 Reference,Value,Footprint,Datasheet,digikey,distributor,Qty
-"C102, C103",16pF,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~,,,2
+"C102, C103",16pF,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~,,https://www.digikey.com/en/products/detail/walsin-technology-corporation/0603N160J500CT/9354987,2
 "C104, C111",0.1uF,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/CC0603ZRY5V9BB104/2103081,2
 C108,4.7uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~,,https://www.digikey.com/en/products/detail/yageo/CC0805ZRY5V6BB475/2103109,1
 "C109, C113",1uF,Capacitor_SMD:C_0805_2012Metric,~,,https://www.digikey.com/en/products/detail/yageo/CC0805ZRY5V7BB105/2833622,2
@@ -23,6 +23,7 @@ R122,100K,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,~,,https://ww
 SW102,3.5x2.6 Tact SW,Library:WS-TASV SMT Tact Switch,,,https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/435151014824/11627325,1
 U101,ESP32-C3-WROOM-02-N4,Library:IC18_ESP32-C3-WROOM-02-N4_EXP,ESP32-C3-WROOM-02-N4,,https://www.digikey.com/en/products/detail/espressif-systems/ESP32-C3-WROOM-02-N4/14553031,1
 U102,SPX3819M5-L,Package_TO_SOT_SMD:SOT-23-5,https://www.exar.com/content/document.ashx?id=22106&languageid=1033&type=Datasheet&partnumber=SPX3819&filename=SPX3819.pdf&part=SPX3819,,https://www.digikey.com/en/products/detail/maxlinear-inc/SPX3819M5-L-TR/2472388,1
-U103,SSD1306_DISPLAY,Library:OLED I2C DISPLAY,,,https://akizukidenshi.com/catalog/g/g112031/,1
+U103,SSD1306_DISPLAY,Library:OLED I2C DISPLAY,,,https://www.amazon.com/IZOKEE-Display-SSD1306-Raspberry-White-IIC/dp/B076PDVFQD/ref=sr_1_3,1
 U104,MCP73831-2-OT,Package_TO_SOT_SMD:SOT-23-5,http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf,,https://www.digikey.com/en/products/detail/microchip-technology/MCP73831T-2ACI-OT/964301,1
 Y101,32.7680KHz,Crystal:Crystal_SMD_3215-2Pin_3.2x1.5mm,~,2151-RT3215-32.768-12.5-TRCT-ND,https://www.digikey.com/en/products/detail/raltron-electronics/RT3215-32-768-12-5-TR/10273025,1
+BAT,LiPo Battery,,,https://www.amazon.com/EEMB-1100mAh-Battery-Rechargeable-Connector/dp/B08FD39Y5R?ref_=ast_sto_dp&th=1,1
