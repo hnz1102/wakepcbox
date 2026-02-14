@@ -14,6 +14,10 @@ This is the small control box that can wake up the PC using Wake On LAN. You can
 There is no need to start up another PC in order to start up a PC with Wake On Lan. Wake on LAN packets are sent via WiFi LAN.
 The Box has a battery, and you can charge it from a USB Type-C port. Once charging full, you can use it for a month. If any buttons are not pressed for the specified time (default 30 seconds), the box will sleep automatically and conserve battery power. Up to four PCs can be registered.
 
+# Update History
+- 2024-05-30 : Initial Release
+- 2026-02-14 : Update code for ESP-IDF V5.4.2 and update README.md
+
 # How it works
 
 This box can send a Wake on LAN packet to the Wireless Access Point. To transfer the packet, the Access Point needs to be set to `Bridge Mode`. If `Router Mode` is set, the Access Point won't transfer to the wired LAN. 
@@ -56,46 +60,48 @@ Set in Box
 
 # How to build from code and Install to the unit.
 
-Using Ubuntu 22.04.3 LTS and ESP-IDF V5.1.2
+Using Ubuntu 22.04.3 LTS and ESP-IDF V5.4.2
 
 1. Install Rust Compiler
 ```bash
-$ sudo apt update && sudo apt -y install git python3 python3-pip gcc build-essential curl pkg-config libudev-dev libtinfo5 clang libclang-dev llvm-dev udev
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-select No.1
-$ source "$HOME/.cargo/env"
+sudo apt update && sudo apt -y install git python3 python3-pip gcc build-essential curl pkg-config libudev-dev libtinfo5 clang libclang-dev llvm-dev udev libssl-dev python3.10-venv
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+You can see the install menu, select No.1. After installation, set the environment variable.
+
+```bash
+. "$HOME/.cargo/env"
 ```
 
-2. Install ESP-IDF (If use esp-idf v5.1.2, need to install and set export values)
+2. Install toolchain for ESP32-C3
 ```bash
-$ sudo apt -y install git wget flex bison gperf python3 python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
-$ sudo apt install python3.10-venv
-$ git clone -b v5.1.2 --recursive https://github.com/espressif/esp-idf.git esp-idf-v5.1.2
-$ cd esp-idf-v5.1.2/
-$ ./install.sh esp32c3
-$ . ./export.sh
-$ cd ..
+cargo install ldproxy
+cargo install espup
+cargo install cargo-espflash
 ```
-3. Install toolchain for ESP32-C3
+
+3. Install ESP-IDF and set the environment variable.
 ```bash
-$ cargo install ldproxy
-$ cargo install espup
-$ rustup toolchain install nightly --component rust-src
-$ rustup target add riscv32imc-unknown-none-elf
-$ cargo install cargo-espflash
+espup install
+espup update
+```
+
+Then, run the following command to set the environment for the ESP32-C3 toolchain:
+```bash
+. ./export-esp.sh
 ```
 
 4. Add UDEV rules
 ```bash
-$ sudo sh -c 'echo "SUBSYSTEMS==\"usb\", ATTRS{idVendor}==\"303a\", ATTRS{idProduct}==\"1001\", MODE=\"0666\"" > /etc/udev/rules.d/99-esp32.rules'
-$ sudo udevadm control --reload-rules
-$ sudo udevadm trigger
+sudo sh -c 'echo "SUBSYSTEMS==\"usb\", ATTRS{idVendor}==\"303a\", ATTRS{idProduct}==\"1001\", MODE=\"0666\"" > /etc/udev/rules.d/99-esp32.rules'
+sudo udevadm control --reload-rules
+sudo udevadm trigger
 ```
 
 5. Download Current-Logger code
 ```bash
-$ git clone https://github.com/hnz1102/wakepcbox.git
-$ cd wakepcbox
+git clone https://github.com/hnz1102/wakepcbox.git
+cd wakepcbox
 ``` 
 6. Setting WiFi SSID, Password, and InfluxDB server IP address.
 ```bash
@@ -114,37 +120,57 @@ sleep_mode = "light"
 display_off_time = "30"
 wakeup_interval = "10"
 ```
-
-7. Connecting the board and Set device and set toolchain.
-```bash
-Connecting the Box by USB Type-C to this code building PC. Then, 
-$ cargo espflash board-info
-select /dev/ttyACM0
-Chip type:         esp32c3 (revision v0.4)
-Crystal frequency: 40MHz
-Flash size:        4MB
-Features:          WiFi, BLE
-MAC address:       xx:xx:xx:xx:xx:xx
-
-If the board is not recognized from PC, press Reset SW and Center button.
-
-$ rustup component add rust-src --toolchain nightly-2023-12-28-x86_64-unknown-linux-gnu 
+7. Build code and writing flash
+```bashbash
+cargo build --release
 ```
 
-8. Build code and writing flash
+8. Connecting the board and Set device and set toolchain.
+
+Connecting the Box by USB Type-C to this code building PC. Then, 
+
 ```bash
-$ cargo espflash flash --release --monitor
+cargo espflash board-info
+
+✔ Use serial port '/dev/ttyACM0' - USB JTAG/serial debug unit? · yes
+✔ Remember this serial port for future use? · yes
+[2026-02-14T04:41:35Z INFO ] Serial port: '/dev/ttyACM0'
+[2026-02-14T04:41:35Z INFO ] Connecting...
+[2026-02-14T04:41:36Z INFO ] Using flash stub
 Chip type:         esp32c3 (revision v0.4)
-Crystal frequency: 40MHz
+Crystal frequency: 40 MHz
 Flash size:        4MB
 Features:          WiFi, BLE
-MAC address:       xx:xx:xx:xx:xx:xx
-Bootloader:        /wakepcbox/target/riscv32imc-esp-espidf/release/build/esp-idf-sys-062fa44bc96bf539/out/build/bootloader/bootloader.bin
-Partition table:   /wakepcbox/partitions.csv
-App/part. size:    1,624,544/3,145,728 bytes, 51.64%
-[00:00:00] [========================================]      13/13      0x0                                                                                                                       
-[00:00:00] [========================================]       1/1       0x8000                                                                                                                    
-[00:00:18] [========================================]     879/879     0x10000                                                                                                                   [2024-01-28T05:33:53Z INFO ] Flashing has completed!
+MAC address:       a0:76:4e:b3:64:c0
+
+Security Information:
+=====================
+Flags: 0x00000000 (0)
+Key Purposes: [0, 0, 0, 0, 0, 0, 12]
+Chip ID: 5
+API Version: 3
+Secure Boot: Disabled
+Flash Encryption: Disabled
+SPI Boot Crypt Count (SPI_BOOT_CRYPT_CNT): 0x0
+```
+
+9. Writing flash
+```bash
+cargo espflash flash --release --monitor
+
+[2026-02-14T04:43:53Z INFO ] Serial port: '/dev/ttyACM0'
+[2026-02-14T04:43:53Z INFO ] Connecting...
+[2026-02-14T04:43:53Z INFO ] Using flash stub
+   Compiling wakepcbox v0.1.0 (/wakepcbox)
+    Finished `release` profile [optimized] target(s) in 4.22s
+Chip type:         esp32c3 (revision v0.4)
+Crystal frequency: 40 MHz
+Flash size:        4MB
+Features:          WiFi, BLE
+MAC address:       a0:76:4e:b3:64:c0
+App/part. size:    1,644,080/3,145,728 bytes, 52.26%
+[00:00:00] [========================================]      13/13      0x0      Verifying... OK!                                                                                                                                                       [00:00:00] [========================================]       1/1       0x8000   Skipped! (checksum matches)                                                                                                                                            
+[00:00:15] [========================================]     887/887     0x10000  Verifying... OK!                                                                                                                                                       [2026-02-14T04:44:16Z INFO ] Flashing has completed!
 
 And automatically boot!
 ```
