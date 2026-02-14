@@ -3,7 +3,10 @@ use esp_idf_hal::{gpio::*, prelude::*, i2c};
 use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_svc::nvs::{EspNvs, EspNvsPartition, NvsDefault, NvsPartitionId};
 use esp_idf_svc::sntp::{EspSntp, SyncStatus, SntpConf, OperatingMode, SyncMode};
-use esp_idf_hal::adc::{config::Config as AdcConfig, AdcChannelDriver, AdcDriver};
+use esp_idf_hal::adc::oneshot::config::AdcChannelConfig;
+use esp_idf_hal::adc::oneshot::config::Calibration;
+use esp_idf_hal::adc::oneshot::*;
+use esp_idf_hal::adc::attenuation::DB_11;
 use esp_idf_svc::wifi::EspWifi;
 use log::*;
 
@@ -65,8 +68,13 @@ fn main() -> anyhow::Result<()> {
     dp.set_initial_logo(true);
 
     // Initialize ADC
-    let mut adc = AdcDriver::new(peripherals.adc1, &AdcConfig::new().calibration(true))?;
-    let mut adc_pin : AdcChannelDriver<'_, {esp_idf_sys::adc_atten_t_ADC_ATTEN_DB_11}, Gpio3> = AdcChannelDriver::new(peripherals.pins.gpio3)?;
+    let mut adc = AdcDriver::new(peripherals.adc1)?;
+    let mut adc_config = AdcChannelConfig {
+        attenuation: DB_11,
+        calibration: Calibration::Curve, // Use curve calibration for better accuracy
+        ..Default::default()
+    };
+    let mut adc_pin = AdcChannelDriver::new(&mut adc, peripherals.pins.gpio3, &mut adc_config)?;
     
     // Initialize nvs
     let wakeup_reason : u32;
@@ -153,6 +161,7 @@ fn main() -> anyhow::Result<()> {
       
     // Get my IP address
     let mut ip_addr : Ipv4Addr; 
+    let mut retry_count : u32 = 0;
     loop {
         ip_addr = wifi_dev.as_ref().unwrap().sta_netif().get_ip_info().unwrap().ip;
         if ip_addr != Ipv4Addr::new(0, 0, 0, 0) {
@@ -160,6 +169,11 @@ fn main() -> anyhow::Result<()> {
         }
         info!("Waiting for WiFi connection...");
         thread::sleep(Duration::from_secs(1));
+        retry_count += 1;
+        if retry_count > 30 {
+            info!("WiFi connection timeout");
+            break;
+        }
     }
 
     // NTP Server
@@ -198,7 +212,7 @@ fn main() -> anyhow::Result<()> {
     let mut rssi : i32;
     loop {
         // Get Battery Voltage
-        let battery_voltage : f32 =  adc.read(&mut adc_pin).unwrap() as f32 * 2.0 / 1000.0;
+        let battery_voltage : f32 =  adc_pin.read().unwrap() as f32 * 2.0 / 1000.0;
         dp.set_battery_voltage(battery_voltage);
         // Get RSSI
         rssi = wifi::get_rssi();

@@ -16,7 +16,7 @@ static GPIO6_FLAG: AtomicBool = AtomicBool::new(false);
 static GPIO9_FLAG: AtomicBool = AtomicBool::new(false);
 static GPIO10_FLAG: AtomicBool = AtomicBool::new(false);
 
-const GARD_TIME: u128 = 30;    // if the time difference is less than 30ms, ignore the interrupt
+const GARD_TIME: u128 = 20;    // if the time difference is less than 30ms, ignore the interrupt
 const KEY_SLEEP_TIME: u64 = 10; // scan the key every 10ms
 
 #[allow(dead_code)]

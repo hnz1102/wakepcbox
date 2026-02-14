@@ -13,10 +13,10 @@ native = ["esp-idf-sys/native"]
 light-sleep = []
 
 [dependencies]
-esp-idf-sys = { version = "=0.34", features = ["binstart"] }
-esp-idf-svc = "=0.48"
-embedded-svc = "=0.27"
-esp-idf-hal = "=0.43"
+esp-idf-sys = { version = "0.36", features = ["binstart"] }
+esp-idf-svc = "0.51"
+embedded-svc = "=0.28"
+esp-idf-hal = "=0.45.2"
 log = "0.4"
 anyhow = "1"
 sntpc = "0.3.6"
