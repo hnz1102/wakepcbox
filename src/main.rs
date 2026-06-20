@@ -149,14 +149,52 @@ fn main() -> anyhow::Result<()> {
     dp.set_initial_logo(false);
 
     // Initialize WiFi
-    // WiFi
-    dp.set_main_msg(&"Connecting WiFi..".to_string(), MessageTypes::Status);
-    dp.set_second_msg(&format!("AP:{}", config_data.wifi_ssid));
     dp.set_wifi_status(WiFiStatus::Connecting);
-    let mut wifi_dev = wifi::wifi_connect(peripherals.modem, &config_data.wifi_ssid, &config_data.wifi_psk);
-    match &wifi_dev {
-        Ok(_) => { dp.set_wifi_status(WiFiStatus::Connected);},
-        Err(ref e) => { info!("{:?}", e); }
+    let mut wifi_dev: Result<Box<EspWifi<'static>>, anyhow::Error>;
+    if config_data.wps_enable && config_data.wifi_ssid.is_empty() {
+        // WPS PBC mode: no SSID configured, use WPS to obtain credentials
+        dp.set_main_msg(&"WPS Mode".to_string(), MessageTypes::Status);
+        dp.set_second_msg(&"Press WPS button".to_string());
+        let wps_result = wifi::wifi_connect_wps(
+            peripherals.modem,
+            |title, msg| {
+                dp.set_main_msg(&msg.to_string(), MessageTypes::Status);
+                dp.set_second_msg(&title.to_string());
+            },
+        );
+        match wps_result {
+            Ok((wps_wifi, wps_ssid, wps_psk)) => {
+                info!("[WPS] Connected: SSID={}", wps_ssid);
+                // Save WPS credentials to NVS for next boot
+                config_data.wifi_ssid = wps_ssid;
+                config_data.wifi_psk = wps_psk;
+                config_data.wps_enable = false; // next boot: connect normally with saved credentials
+                let toml_string = convert_config_to_toml_string(&config_data.to_config_entries());
+                match nvs.set_str("config", &toml_string) {
+                    Ok(_) => { info!("[WPS] Credentials saved to NVS"); },
+                    Err(ref e) => { info!("[WPS] Failed to save credentials: {:?}", e); },
+                }
+                // Re-initialize menu so that the WPS-obtained SSID/PSK are reflected
+                // (initialize_menu was called before WPS with empty credentials)
+                dp.initialize_menu(&config_data);
+                dp.set_wifi_status(WiFiStatus::Connected);
+                wifi_dev = Ok(wps_wifi);
+            },
+            Err(ref e) => {
+                info!("[WPS] Failed: {:?}", e);
+                dp.set_main_msg(&"WPS Failed".to_string(), MessageTypes::Error);
+                wifi_dev = Err(anyhow::anyhow!("WPS failed: {}", e));
+            },
+        }
+    } else {
+        // Normal SSID+PSK connection
+        dp.set_main_msg(&"Connecting WiFi..".to_string(), MessageTypes::Status);
+        dp.set_second_msg(&format!("AP:{}", config_data.wifi_ssid));
+        wifi_dev = wifi::wifi_connect(peripherals.modem, &config_data.wifi_ssid, &config_data.wifi_psk);
+        match &wifi_dev {
+            Ok(_) => { dp.set_wifi_status(WiFiStatus::Connected); },
+            Err(ref e) => { info!("{:?}", e); }
+        }
     }
       
     // Get my IP address

@@ -61,6 +61,10 @@ impl MenuTable {
         }
     }
 
+    pub fn clear(&mut self) {
+        self.menu_item.clear();
+    }
+
     pub fn add_menu_item(&mut self, title: &str) {
         self.menu_item.push(MenuItem {
             title: title.to_string(),

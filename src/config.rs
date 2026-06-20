@@ -7,6 +7,8 @@ pub struct Config {
     wifi_ssid: &'static str,
     #[default("")]
     wifi_psk: &'static str,
+    #[default("false")]
+    wps_enable: &'static str,
     #[default("")]
     target_mac_address1: &'static str,
     #[default("")]
@@ -27,6 +29,7 @@ pub struct Config {
 
 const MENU_SSID: &str = "SSID";
 const MENU_PSK: &str = "PSK";
+const MENU_WPS: &str = "WPS";
 const MENU_PC1: &str = "PC1";
 const MENU_PC2: &str = "PC2";
 const MENU_PC3: &str = "PC3";
@@ -40,6 +43,7 @@ const MENU_DISPLAYOFFTIME: &str = "DISPLAYOFFTIME";
 pub struct ConfigData {
     pub wifi_ssid: String,
     pub wifi_psk: String,
+    pub wps_enable: bool,
     pub target_mac_address1: String,
     pub target_mac_address2: String,
     pub target_mac_address3: String,
@@ -55,6 +59,7 @@ impl ConfigData {
         ConfigData {
             wifi_ssid: String::new(),
             wifi_psk: String::new(),
+            wps_enable: false,
             target_mac_address1: String::new(),
             target_mac_address2: String::new(),
             target_mac_address3: String::new(),
@@ -75,6 +80,7 @@ impl ConfigData {
         let settings_map = settings.try_deserialize::<HashMap<String, String>>()?;
         self.wifi_ssid = settings_map.get(MENU_SSID).ok_or(anyhow::Error::msg("wifi_ssid not found"))?.to_string();
         self.wifi_psk = settings_map.get(MENU_PSK).ok_or(anyhow::Error::msg("wifi_psk not found"))?.to_string();
+        self.wps_enable = settings_map.get(MENU_WPS).map(|v| v == "true").unwrap_or(false);
         self.target_mac_address1 = settings_map.get(MENU_PC1).ok_or(anyhow::Error::msg("target_mac_address1 not found"))?.to_string();
         self.target_mac_address2 = settings_map.get(MENU_PC2).ok_or(anyhow::Error::msg("target_mac_address2 not found"))?.to_string();
         self.target_mac_address3 = settings_map.get(MENU_PC3).ok_or(anyhow::Error::msg("target_mac_address3 not found"))?.to_string();
@@ -86,10 +92,30 @@ impl ConfigData {
         Ok(())
     }
     
+    /// Serialize the **current** struct values to a list of (key, value) pairs.
+    /// Use this (not `set_default_config`) when you want to persist runtime state such
+    /// as WPS-obtained credentials.
+    pub fn to_config_entries(&self) -> Vec<(String, String)> {
+        vec![
+            (MENU_SSID.to_string(),          self.wifi_ssid.clone()),
+            (MENU_PSK.to_string(),           self.wifi_psk.clone()),
+            (MENU_WPS.to_string(),           self.wps_enable.to_string()),
+            (MENU_PC1.to_string(),           self.target_mac_address1.clone()),
+            (MENU_PC2.to_string(),           self.target_mac_address2.clone()),
+            (MENU_PC3.to_string(),           self.target_mac_address3.clone()),
+            (MENU_PC4.to_string(),           self.target_mac_address4.clone()),
+            (MENU_TIMEZONE.to_string(),      self.timezone_offset.to_string()),
+            (MENU_IDLESLEEP.to_string(),     self.idle_in_sleep_time.to_string()),
+            (MENU_SLEEPMODE.to_string(),     self.sleep_mode.clone()),
+            (MENU_DISPLAYOFFTIME.to_string(),self.display_off_time.to_string()),
+        ]
+    }
+
     pub fn set_default_config(&self) -> Vec::<(String, String)> {
         let mut default_config = Vec::<(String, String)>::new();
         default_config.push((MENU_SSID.to_string(), CONFIG.wifi_ssid.to_string()));
         default_config.push((MENU_PSK.to_string(),  CONFIG.wifi_psk.to_string()));
+        default_config.push((MENU_WPS.to_string(), CONFIG.wps_enable.to_string()));
         default_config.push((MENU_PC1.to_string(), CONFIG.target_mac_address1.to_string()));
         default_config.push((MENU_PC2.to_string(), CONFIG.target_mac_address2.to_string()));
         default_config.push((MENU_PC3.to_string(), CONFIG.target_mac_address3.to_string()));

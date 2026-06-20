@@ -482,6 +482,7 @@ impl DisplayPanel {
     pub fn initialize_menu(&mut self, config_data: &ConfigData){
         // Initialize Menu
         let mut lcktxt = self.txt.lock().unwrap();
+        lcktxt.menu_table.clear();
         lcktxt.menu_table.add_menu_item("WiFi");
         lcktxt.menu_table.add_menu_item("HW Address");
         lcktxt.menu_table.add_menu_item("System");

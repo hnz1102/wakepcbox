@@ -17,6 +17,7 @@ The Box has a battery, and you can charge it from a USB Type-C port. Once chargi
 # Update History
 - 2024-05-30 : Initial Release
 - 2026-02-14 : Update code for ESP-IDF V5.4.2 and update README.md
+- 2026-06-20 : v0.2.0 - Add WPS PBC mode support, fix WPS display overlap, fix WiFi menu not reflecting WPS credentials immediately
 
 # How it works
 
@@ -38,8 +39,14 @@ This box can send a Wake on LAN packet to the Wireless Access Point. To transfer
 
 **Configurable** - Setting parameters are set from the display menu. SSID/Password/Target PC Hardware Address(4 PCs)/Time Zone/Sleep Time/Sleep Mode/Display Off Time/Reset Settings.
 
+**WPS Support** - If `wps_enable = "true"` and `wifi_ssid` is empty in `cfg.toml`, the device enters WPS PBC (Push Button Configuration) mode on first boot. Press the WPS button on your router within 120 seconds. The obtained SSID and password are saved to NVS automatically, and subsequent boots connect normally without WPS.
+
 # How to Use the Box
-At first, you can set the WiFi SSID and PSK-Password. To set them, push the Center Key, you can see the setting menu, then select the `WiFi` using the UP or Down Key, and click the Center Key. Then, select `SSID` and enter your SSID of the Wireless Access point using the Up/Down/Left/Right key. After entering the SSID, push the center key, select `yes` using the Right key, then, push the Center key. Similarly, set the PSK-Password.
+At first, you can set the WiFi SSID and PSK-Password in one of two ways:
+
+**Option A: Manual entry via menu** - Push the Center Key to open the setting menu, select `WiFi`, then enter your SSID and password using the direction keys.
+
+**Option B: WPS PBC mode** - Set `wps_enable = "true"` and leave `wifi_ssid` empty in `cfg.toml` before flashing. On first boot, the device displays "WPS MODE" and waits up to 120 seconds. Press the WPS button on your router to transfer the credentials automatically. The SSID and password are saved and WPS mode is disabled for subsequent boots.
 Next, set the Hardware Address(Ethernet MAC Address) of the PC that you want to wake up. Select `HW Address` and push Center Key, select from `PC1` to `PC4`, push Center key, then enter your Hardware Address like `00:11:22:33:44:55`. 
 
 ![setting](doc/setting2.jpg)   ![setting](doc/macaddress2.jpg)
@@ -108,8 +115,9 @@ cd wakepcbox
 cfg.toml
 
 [wakepcbox]
-wifi_ssid = "<SSID>"      # Set your AP SSID.
+wifi_ssid = "<SSID>"      # Set your AP SSID. Leave empty to use WPS mode.
 wifi_psk = "<Password>"   # Set password for SSID.
+wps_enable = "false"       # Set "true" to use WPS PBC mode on first boot (requires wifi_ssid to be empty).
 target_mac_address1 = "00:00:00:00:00:00"  # Set Hardware Address(MAC Address) for wakeup.
 target_mac_address2 = "00:00:00:00:00:00"
 target_mac_address3 = "00:00:00:00:00:00"
